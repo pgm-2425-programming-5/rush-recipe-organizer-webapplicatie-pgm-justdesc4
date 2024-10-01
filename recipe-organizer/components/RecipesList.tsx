@@ -12,6 +12,7 @@ const RecipesList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
+  // Fetch recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       const response = await fetch("/data/recipes.json");
@@ -22,6 +23,7 @@ const RecipesList: React.FC = () => {
     fetchRecipes();
   }, []);
 
+  // Filter recipes by category
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -32,6 +34,19 @@ const RecipesList: React.FC = () => {
     selectedCategory === "All"
       ? recipes
       : recipes.filter((recipe) => recipe.category === selectedCategory);
+
+  // Delete a recipe
+  const handleDeleteRecipe = async (index: number) => {
+    const response = await fetch(`/api/recipes?index=${index}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      setRecipes((prevRecipes) => prevRecipes.filter((_, i) => i !== index));
+    } else {
+      console.error("Failed to delete the recipe");
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -74,6 +89,12 @@ const RecipesList: React.FC = () => {
                   <li key={i}>{instruction}</li>
                 ))}
               </ol>
+              <button
+                onClick={() => handleDeleteRecipe(index)}
+                className="mt-4 bg-red-500 text-white p-2 rounded"
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}

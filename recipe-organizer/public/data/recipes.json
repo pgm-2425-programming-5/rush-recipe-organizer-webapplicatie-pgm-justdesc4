@@ -91,16 +91,6 @@
         "Cool in the pans for 10 minutes, then remove to wire racks to cool completely."
       ],
       "category": "Dessert"
-    },
-    {
-      "name": "test",
-      "ingredients": [
-        "test"
-      ],
-      "instructions": [
-        "test"
-      ],
-      "category": "Breakfast"
     }
   ]
 }
